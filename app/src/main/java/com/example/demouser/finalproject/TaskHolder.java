@@ -23,9 +23,9 @@ public class TaskHolder extends RecyclerView.ViewHolder{
 
     public void bindTask(Task task){
         this.task = task;
-        taskName.setText(task.getTask());
+        taskName.setText(task.getTaskName());
 
-        if (task.getProgress()){
+        if (task.getInProgress()){
             StartStopButton.setText(R.string.stop);
             // change background color
 
@@ -37,16 +37,16 @@ public class TaskHolder extends RecyclerView.ViewHolder{
     }
 
     public void onClick(View view) {
-        if (task.getProgress()){
+        if (task.getInProgress()){
             StartStopButton.setText(R.string.stop);
             // change background color
-            task.setProgress(false);
+            task.setInProgress(false);
             Log.i(LOG,"true");
 
         }else{
             StartStopButton.setText(R.string.start);
             // change background color
-            task.setProgress(true);
+            task.setInProgress(true);
         }
     }
 
