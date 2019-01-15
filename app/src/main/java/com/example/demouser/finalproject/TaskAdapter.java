@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//    Fanghui He: test comment
 public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> {
     private List<Task> tasks;
 
