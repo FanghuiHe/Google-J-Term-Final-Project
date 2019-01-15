@@ -29,6 +29,7 @@ public class Task {
         this.taskName = taskName;
         this.inProgress = false;
         this.dueDate = dueDate;
+        this.timeWorked = 800000000;
     }
 
     // Getters and Setters
@@ -71,5 +72,4 @@ public class Task {
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
     }
-
 }

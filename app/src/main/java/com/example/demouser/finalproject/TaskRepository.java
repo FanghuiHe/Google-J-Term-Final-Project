@@ -23,6 +23,10 @@ public class TaskRepository {
         return tasks;
     }
 
+    public void setTime(Task task){
+        new setTimeAsyncTask(taskDao).execute(task);
+    }
+
     double getTime(Task task){
         timeWorkedOn = task.getTimeWorked();
         return timeWorkedOn;
@@ -76,6 +80,21 @@ public class TaskRepository {
         }
 
 
+    }
+
+    private static class setTimeAsyncTask extends AsyncTask<Task, Void, Void> {
+
+        private TaskDao mAsyncTaskDao;
+
+        setTimeAsyncTask(TaskDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Task... params) {
+            mAsyncTaskDao.setTime(params[0].getTimeWorked(),params[0].getId());
+            return null;
+        }
     }
 
    /* private static class getTimeWorkedAsyncTask extends AsyncTask<Task, Void, Void> {

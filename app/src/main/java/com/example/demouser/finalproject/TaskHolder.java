@@ -87,7 +87,10 @@ public class TaskHolder extends RecyclerView.ViewHolder{
         }else{
             tEnd = System.currentTimeMillis();
             tElapsed += (tEnd - tStart);
+            Activity activity = (Activity) view.getContext();
+            TaskRepository taskRepository = new TaskRepository(activity.getApplication());
             task.setTimeWorked(tElapsed);
+            taskRepository.setTime(task);
             Log.i(LOG,String.valueOf(tElapsed));
 
             StartStopButton.setText(R.string.start);
