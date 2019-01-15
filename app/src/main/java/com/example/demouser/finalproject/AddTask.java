@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class AddTask extends AppCompatActivity {
-
+    //Elizabeth Freeman sample comment
 
     private String TASKNAME_KEY = "Task Name";
     private String DATE_KEY = "Due Date";
