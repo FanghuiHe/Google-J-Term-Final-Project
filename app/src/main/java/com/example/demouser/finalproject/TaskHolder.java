@@ -23,7 +23,7 @@ public class TaskHolder extends RecyclerView.ViewHolder{
     private Activity mainActivity;
     private long tStart;
     private long tEnd;
-    private long tElapsed;
+    private double tElapsed;
 
 
     View.OnClickListener doneListener = new View.OnClickListener() {
@@ -58,6 +58,7 @@ public class TaskHolder extends RecyclerView.ViewHolder{
 
     public void bindTask(Task task){
         this.task = task;
+        this.tElapsed = task.getTimeWorked();
         taskName.setText(task.getTaskName());
 
         if (task.getInProgress()){

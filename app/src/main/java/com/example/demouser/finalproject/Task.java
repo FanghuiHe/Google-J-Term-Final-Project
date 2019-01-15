@@ -29,7 +29,7 @@ public class Task {
         this.taskName = taskName;
         this.inProgress = false;
         this.dueDate = dueDate;
-        this.timeWorked = 800000000;
+        this.timeWorked = 0;
     }
 
     // Getters and Setters
