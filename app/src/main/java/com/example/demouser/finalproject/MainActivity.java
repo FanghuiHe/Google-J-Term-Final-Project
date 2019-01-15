@@ -1,5 +1,6 @@
 package com.example.demouser.finalproject;
 
+import android.app.Application;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private TaskAdapter adapter = new TaskAdapter();
     private int REQUEST_TASK = 2;
     private String TAG = "tag";
+    //private TaskRepository taskRepository = new TaskRepository(getApplication());
 
 //    private static TaskRepository taskRepository = new TaskRepository(getApplication());
 
@@ -89,21 +91,16 @@ public class MainActivity extends AppCompatActivity {
                 TaskRepository taskRepository = new TaskRepository(getApplication());
                 Task task = new Task(taskName,dueDate);
                 taskRepository.insert(task);
-//                taskRepository.deleteTask(task.getId());
+                //taskRepository.delete(task);
             }
         }
 
     }
 
-    public void doneButton(View view){
-//        MainActivity mainActivity = MainActivity.this;
-        TaskDatabase db = TaskDatabase.getDatabase(getApplication());
-        TaskDao taskDao = db.taskDao();
-//        tasks = taskDao.getTasksByDateAsc();
-//        TaskRepository taskRepository = new TaskRepository(getApplication());
-        TaskHolder taskHolder = (TaskHolder) view.getParent();
-        Task task = taskHolder.getTask();
-        taskDao.delete(task);
+    /**public TaskRepository getTaskRepository() {
+        return taskRepository;
     }
-
+    public void setTaskRepository(TaskRepository taskRepository){
+        this.taskRepository=taskRepository;
+    }*/
 }

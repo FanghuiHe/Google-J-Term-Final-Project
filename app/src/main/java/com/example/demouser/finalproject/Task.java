@@ -20,6 +20,9 @@ public class Task {
     private boolean inProgress;
     @ColumnInfo(name="due_date")
     private String dueDate;
+    @ColumnInfo(name="time_worked")
+    private double timeWorked;
+
 
     // Constructor
     public Task(String taskName, String dueDate){
@@ -29,6 +32,14 @@ public class Task {
     }
 
     // Getters and Setters
+
+    public double getTimeWorked() {
+        return timeWorked;
+    }
+    public void setTimeWorked(double timeWorked){
+        this.timeWorked=timeWorked;
+    }
+
     public String getTaskName(){
         return taskName;
     }
