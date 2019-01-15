@@ -19,10 +19,10 @@ public class Task {
     @ColumnInfo(name="in_progress")
     private boolean inProgress;
     @ColumnInfo(name="due_date")
-    private int dueDate;
+    private String dueDate;
 
     // Constructor
-    public Task(String taskName, int dueDate){
+    public Task(String taskName, String dueDate){
         this.taskName = taskName;
         this.inProgress = false;
         this.dueDate = dueDate;
@@ -32,6 +32,7 @@ public class Task {
     public String getTaskName(){
         return taskName;
     }
+
     public void setTaskName(String s){
         this.taskName = s;
     }
@@ -43,6 +44,7 @@ public class Task {
     public void setInProgress(boolean b){
         this.inProgress = b;
     }
+
     public int getId(){
         return id;
     }
@@ -50,11 +52,12 @@ public class Task {
     public void setId(int id) {
         this.id = id;
     }
-    public int getDueDate(){
+
+    public String getDueDate(){
         return dueDate;
     }
 
-    public void setDueDate(int dueDate) {
+    public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
     }
 }
