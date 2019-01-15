@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     private int REQUEST_TASK = 2;
     private String TAG = "tag";
 
+//    private static TaskRepository taskRepository = new TaskRepository(getApplication());
+
     // Maha: comment
 
     @Override
@@ -69,6 +71,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
+
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
 
 
@@ -79,12 +85,25 @@ public class MainActivity extends AppCompatActivity {
                 String dueDate = data.getStringExtra("Due Date");
                 Log.d(TAG, taskName);
                 Log.d(TAG, dueDate);
-
-
-
+//                Task task = new Task(taskName,dueDate);
+                TaskRepository taskRepository = new TaskRepository(getApplication());
+                Task task = new Task(taskName,dueDate);
+                taskRepository.insert(task);
+//                taskRepository.deleteTask(task.getId());
             }
         }
 
+    }
+
+    public void doneButton(View view){
+//        MainActivity mainActivity = MainActivity.this;
+        TaskDatabase db = TaskDatabase.getDatabase(getApplication());
+        TaskDao taskDao = db.taskDao();
+//        tasks = taskDao.getTasksByDateAsc();
+//        TaskRepository taskRepository = new TaskRepository(getApplication());
+        TaskHolder taskHolder = (TaskHolder) view.getParent();
+        Task task = taskHolder.getTask();
+        taskDao.delete(task);
     }
 
 }

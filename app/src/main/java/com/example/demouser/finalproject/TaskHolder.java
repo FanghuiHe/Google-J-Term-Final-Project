@@ -1,5 +1,6 @@
 package com.example.demouser.finalproject;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,12 +14,17 @@ public class TaskHolder extends RecyclerView.ViewHolder{
     private Button StartStopButton;
     private Task task;
     private String LOG = "log";
+    private Activity mainActivity;
 
     public TaskHolder(View itemView){
         super(itemView);
         taskName = (TextView) itemView.findViewById(R.id.taskName);
         StartStopButton = (Button) itemView.findViewById(R.id.start_stop);
 
+    }
+
+    public Task getTask(){
+        return task;
     }
 
     public void bindTask(Task task){
@@ -49,6 +55,10 @@ public class TaskHolder extends RecyclerView.ViewHolder{
             task.setInProgress(true);
         }
     }
+
+
+
+
 
 
 }
