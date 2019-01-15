@@ -9,15 +9,23 @@ import java.util.List;
 public class TaskRepository {
     private TaskDao taskDao;
     private LiveData<List<Task>> tasks;
+    private double timeWorkedOn;
+
 
     public TaskRepository(Application application) {
         TaskDatabase db = TaskDatabase.getDatabase(application);
         taskDao = db.taskDao();
         tasks = taskDao.getTasksByDateAsc();
+
     }
 
     LiveData<List<Task>> getTasks() {
         return tasks;
+    }
+
+    double getTime(Task task){
+        timeWorkedOn = task.getTimeWorked();
+        return timeWorkedOn;
     }
 
     public void insert(Task task) {
@@ -27,6 +35,16 @@ public class TaskRepository {
     public void delete(Task task) {
         new deleteAsyncTask(taskDao).execute(task);
     }
+
+ /*   public int getTimeWorked(Task task){
+        timeWorkedOn = taskDao.getTimeWorked((task.getId()));
+
+
+
+      //  return new getTimeWorkedAsyncTask(taskDao).execute(task);
+
+    }
+    */
 
     private static class insertAsyncTask extends AsyncTask<Task, Void, Void> {
 
@@ -59,5 +77,22 @@ public class TaskRepository {
 
 
     }
+
+   /* private static class getTimeWorkedAsyncTask extends AsyncTask<Task, Void, Void> {
+
+        private TaskDao mAsyncTaskDao;
+
+        getTimeWorkedAsyncTask(TaskDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Task... params) {
+            mAsyncTaskDao.getTimeWorked(params[0].getId());
+            return null;
+        }
+
+
+    }*/
 
 }

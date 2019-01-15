@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     private TaskAdapter adapter = new TaskAdapter();
     private int REQUEST_TASK = 2;
     private String TAG = "tag";
+
+
     //private TaskRepository taskRepository = new TaskRepository(getApplication());
 
 //    private static TaskRepository taskRepository = new TaskRepository(getApplication());

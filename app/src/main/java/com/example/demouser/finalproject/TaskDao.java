@@ -17,6 +17,9 @@ public interface TaskDao {
     @Delete
     void delete(Task task);
 
+    @Query("SELECT time_worked FROM task_table WHERE id=:id")
+    double getTimeWorked(int id);
+
 //    @Query("DELETE * FROM task_table WHERE id=:id ")
 //    LiveData<List<Task>> deleteTask(int id);
 

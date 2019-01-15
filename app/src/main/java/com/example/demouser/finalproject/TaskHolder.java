@@ -2,12 +2,16 @@ package com.example.demouser.finalproject;
 
 import android.app.Activity;
 import android.app.Application;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.Timer;
 
 
 public class TaskHolder extends RecyclerView.ViewHolder{
@@ -17,11 +21,23 @@ public class TaskHolder extends RecyclerView.ViewHolder{
     private Task task;
     private String LOG = "log";
     private Activity mainActivity;
+    private long tStart;
+    private long tEnd;
+    private long tElapsed;
+
 
     View.OnClickListener doneListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             doneButton(v);
+        }
+    };
+
+    View.OnClickListener startStopListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            startStopButton(v);
         }
     };
 
@@ -31,6 +47,8 @@ public class TaskHolder extends RecyclerView.ViewHolder{
         StartStopButton = (Button) itemView.findViewById(R.id.start_stop);
         DoneButton = (Button) itemView.findViewById(R.id.done);
         DoneButton.setOnClickListener(doneListener);
+        StartStopButton.setOnClickListener(startStopListener);
+
 
     }
 
@@ -53,24 +71,44 @@ public class TaskHolder extends RecyclerView.ViewHolder{
 
     }
 
-    public void onClick(View view) {
-        if (task.getInProgress()){
+    public void startStopButton(View view) {
+
+        if (!task.getInProgress()){
+            tStart = System.currentTimeMillis();
             StartStopButton.setText(R.string.stop);
+
             // change background color
-            task.setInProgress(false);
+            task.setInProgress(true);
+            int green = -16711936;
+
+            ((View) view.getParent().getParent()).setBackgroundColor(green);
             Log.i(LOG,"true");
 
         }else{
+            tEnd = System.currentTimeMillis();
+            tElapsed += (tEnd - tStart);
+            task.setTimeWorked(tElapsed);
+            Log.i(LOG,String.valueOf(tElapsed));
+
             StartStopButton.setText(R.string.start);
             // change background color
-            task.setInProgress(true);
+            task.setInProgress(false);
+            int blue = -16711681;
+            ((View) view.getParent().getParent()).setBackgroundColor(blue);
+            Log.i(LOG,"false");
         }
+
+
     }
 
     public void doneButton(View view){
         Activity activity = (Activity) view.getContext();
         TaskRepository taskRepository = new TaskRepository(activity.getApplication());
+        Log.i(LOG,String.valueOf(taskRepository.getTime(task)));
         taskRepository.delete(task);
+
+
+
     }
 
 
