@@ -24,6 +24,7 @@ public class TaskHolder extends RecyclerView.ViewHolder{
     private long tStart;
     private long tEnd;
     private double tElapsed;
+    private int currentPoints;
 
 
     View.OnClickListener doneListener = new View.OnClickListener() {
@@ -72,6 +73,7 @@ public class TaskHolder extends RecyclerView.ViewHolder{
 
     }
 
+
     public void startStopButton(View view) {
 
         if (!task.getInProgress()){
@@ -108,6 +110,10 @@ public class TaskHolder extends RecyclerView.ViewHolder{
     public void doneButton(View view){
         Activity activity = (Activity) view.getContext();
         TaskRepository taskRepository = new TaskRepository(activity.getApplication());
+        UserRepository userRepository = new UserRepository(activity.getApplication());
+        //currentPoints =
+
+
         if (task.getInProgress()) {
             startStopButton(((View)view.getParent()).findViewById(R.id.start_stop));
         }

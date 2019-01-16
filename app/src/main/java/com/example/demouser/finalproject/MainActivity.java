@@ -22,18 +22,18 @@ public class MainActivity extends AppCompatActivity {
     private TaskAdapter adapter = new TaskAdapter();
     private int REQUEST_TASK = 2;
     private String TAG = "tag";
+    private User user;
 
 
-    //private TaskRepository taskRepository = new TaskRepository(getApplication());
-
-//    private static TaskRepository taskRepository = new TaskRepository(getApplication());
-
-    // Maha: comment
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        UserRepository userRepository = new UserRepository(getApplication());
+
+        user = new User("Henry");
+        Log.d(TAG, user.getCharName());
 
         TaskRepository taskRepository = new TaskRepository(getApplication());
         taskRepository.getTasks().observe(
@@ -45,26 +45,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
-        /**taskRepository.insert(new Task("task1",0));
-         taskRepository.insert(new Task("task2",1));
-         taskRepository.insert(new Task("task3",0));
-         taskRepository.insert(new Task("task4",1));
-         taskRepository.insert(new Task("task5",0));
-         taskRepository.insert(new Task("task6",1));
-         taskRepository.insert(new Task("task7",0));
-         taskRepository.insert(new Task("task8",1));
-        taskRepository.insert(new Task("task9",0));
-        finish();*/
-
 
         RecyclerView taskList = (RecyclerView) findViewById(R.id.taskList);
         taskList.setLayoutManager(new LinearLayoutManager((this)));
-        /**tasks.add(new Task("task1",0));
-        tasks.add(new Task("task2", 1));
-        tasks.add(new Task("task3",0));
-        tasks.add(new Task("task4", 1));
-        tasks.add(new Task("task5", 0));
-        tasks.add(new Task("sdgsigdfkasgdsfbdsjkgfkudsfkjdshkfg", 1));*/
+
         taskList.setAdapter(adapter);
 
     }
@@ -80,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-
-
         if(requestCode == REQUEST_TASK){
             if(resultCode == RESULT_OK){
                 // get results
@@ -100,9 +82,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**public TaskRepository getTaskRepository() {
-        return taskRepository;
-    }
-    public void setTaskRepository(TaskRepository taskRepository){
-        this.taskRepository=taskRepository;
-    }*/
+     return taskRepository;
+     }
+     public void setTaskRepository(TaskRepository taskRepository){
+     this.taskRepository=taskRepository;
+     }*/
 }

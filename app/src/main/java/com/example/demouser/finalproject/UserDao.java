@@ -18,4 +18,7 @@ public interface UserDao {
 
     @Query("UPDATE user_table SET points=:points WHERE userName=:userName")
     void setPoints(int points, String userName);
+
+    @Query("SELECT COUNT(*) FROM user_table")
+    int getCount();
 }
