@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 // add the task to the task repository
                 TaskRepository taskRepository = new TaskRepository(getApplication());
                 // create the new task with the given information
-                Task task = new Task(taskName,dueDate);
+                Task task = new Task(taskName,dueDate,user.getUserName());
                 taskRepository.insert(task);
 
             }
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 // get results character name from settings page
                 String charName = data.getStringExtra("charName");
                 Log.d(TAG, charName);
-                
+
             }
         }
 

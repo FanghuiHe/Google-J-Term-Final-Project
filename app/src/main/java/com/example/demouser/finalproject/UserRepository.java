@@ -2,7 +2,10 @@ package com.example.demouser.finalproject;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.os.AsyncTask;
+
 
 public class UserRepository {
     private UserDao userDao;
@@ -19,9 +22,10 @@ public class UserRepository {
         new insertAsyncUser(userDao).execute(user);
     }
 
-    int getPoints(User user){
-        int points = user.getPoints();
+    int getPoints(String userName){
+        int points = userDao.getPoints(userName);
         return points;
+//        return new
     }
 
     void setPoints(User user){

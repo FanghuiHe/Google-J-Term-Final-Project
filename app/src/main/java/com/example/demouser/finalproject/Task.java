@@ -2,14 +2,20 @@ package com.example.demouser.finalproject;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 
 
 import java.sql.Timestamp;
 import java.util.Date;
 
+import static android.arch.persistence.room.ForeignKey.CASCADE;
 
-@Entity(tableName="task_table")
+//@Entity(foreignKeys = @ForeignKey(entity = User.class,parentColumns = "userName",childColumns = "user_name"))
+@Entity(tableName = "task_table")
+@ForeignKey(entity = User.class,parentColumns = "userName",childColumns = "user_name", onDelete = CASCADE)
+//@Table(name = "author")
+//@SecondaryTable(name = "author_details")
 public class Task {
     // Variables for views
     @PrimaryKey(autoGenerate=true)
@@ -22,14 +28,18 @@ public class Task {
     private String dueDate;
     @ColumnInfo(name="time_worked")
     private double timeWorked;
+    @ColumnInfo(name = "user_name")
+    private String userName;
+
 
 
     // Constructor
-    public Task(String taskName, String dueDate){
+    public Task(String taskName, String dueDate, String userName){
         this.taskName = taskName;
         this.inProgress = false;
         this.dueDate = dueDate;
         this.timeWorked = 0;
+        this.userName = userName;
     }
 
     // Getters and Setters
@@ -39,6 +49,14 @@ public class Task {
     }
     public void setTimeWorked(double timeWorked){
         this.timeWorked=timeWorked;
+    }
+
+    public String getUserName(){
+        return userName;
+    }
+
+    public void setUserName(String user){
+        this.userName = user;
     }
 
     public String getTaskName(){
