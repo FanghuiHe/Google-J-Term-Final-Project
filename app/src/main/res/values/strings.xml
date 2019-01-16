@@ -2,7 +2,7 @@
     <string name="app_name">Final Project</string>
     <string name="point_label">Points:</string>
     <string name="settings">Settings</string>
-    <string name="charName">Kevin</string>
+    <string name="charName">Simba</string>
     <string name="taskNamePrompt">Name of task</string>
     <string name="datePrompt">Due Date (YYYY-MM-DD)</string>
     <string name="createTask">Create</string>

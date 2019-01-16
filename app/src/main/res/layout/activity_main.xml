@@ -62,7 +62,7 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tes"
-        app:srcCompat="@drawable/babychar" />
+        app:srcCompat="@drawable/baby_simba" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/taskList"
