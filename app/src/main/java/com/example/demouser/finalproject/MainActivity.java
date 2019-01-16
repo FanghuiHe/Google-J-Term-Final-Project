@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private int REQUEST_TASK = 2;
     private String TAG = "tag";
     private User user;
+    private int REQUEST_CHARNAME = 3;
 
 
 
@@ -53,29 +54,37 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void settingB(View view){
+        Intent intent = new Intent(this, Settings.class);
+        startActivityForResult(intent, REQUEST_CHARNAME);
+
+    }
+
     public void plusB(View view){
         Intent intent = new Intent(this, AddTask.class);
         startActivityForResult(intent, REQUEST_TASK);
 
     }
 
-
-
-
-
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(requestCode == REQUEST_TASK){
             if(resultCode == RESULT_OK){
-                // get results
+                // get results of task name
                 String taskName = data.getStringExtra("Task Name");
                 String dueDate = data.getStringExtra("Due Date");
                 Log.d(TAG, taskName);
                 Log.d(TAG, dueDate);
-//                Task task = new Task(taskName,dueDate);
                 TaskRepository taskRepository = new TaskRepository(getApplication());
                 Task task = new Task(taskName,dueDate);
                 taskRepository.insert(task);
-                //taskRepository.delete(task);
+
+            }
+
+        }else if(requestCode == REQUEST_CHARNAME){
+            if (resultCode == RESULT_OK){
+                // get results character name from settings page
+                String charName = data.getStringExtra("charName");
+                Log.d(TAG, charName);
             }
         }
 
