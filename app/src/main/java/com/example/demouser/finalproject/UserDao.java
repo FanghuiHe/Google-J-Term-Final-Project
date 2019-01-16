@@ -1,9 +1,11 @@
 package com.example.demouser.finalproject;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.support.annotation.IntegerRes;
 
 @Dao
 public interface UserDao {
@@ -14,7 +16,7 @@ public interface UserDao {
     void delete(User user);
 
     @Query("SELECT points FROM user_table WHERE userName=:userName")
-    int getPoints(String userName);
+    LiveData<Integer> getPoints(String userName);
 
     @Query("UPDATE user_table SET points=:points WHERE userName=:userName")
     void setPoints(int points, String userName);

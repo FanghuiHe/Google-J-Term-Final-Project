@@ -10,8 +10,10 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
-//    Fanghui He: test comment
+
+
 public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> {
+//
     private List<Task> tasks;
 
     public TaskAdapter(){
@@ -27,9 +29,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> {
     public TaskHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.task_layout,parent,false);
-
-
-
         return new TaskHolder(view);
     }
 

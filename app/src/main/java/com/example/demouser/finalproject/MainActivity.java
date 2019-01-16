@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Task> tasks = new ArrayList<Task>();
     private TaskAdapter adapter = new TaskAdapter();
     private User user;
+    private int currentPoints;
 
     // log tags:
     private String TAG = "tag";
@@ -37,11 +39,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        UserRepository userRepository = new UserRepository(getApplication());
+        UserRepository userRepository = new UserRepository(getApplication(), this);
 
         // new user
         user = new User("Henry");
         Log.d(TAG, user.getCharName());
+       // userRepository.insert(user);
+
 
         TaskRepository taskRepository = new TaskRepository(getApplication());
         taskRepository.getTasks().observe(
@@ -58,7 +62,34 @@ public class MainActivity extends AppCompatActivity {
 
         taskList.setAdapter(adapter);
 
+        displayPoints();
+
+
+
     }
+
+    public void displayPoints(){
+        UserRepository userRepository = new UserRepository(getApplication(), this);
+        userRepository.getPoints(user.getUserName()).observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer integer) {
+                TextView pointView = (TextView) findViewById(R.id.points);
+                pointView.setText(String.valueOf(integer));
+                currentPoints = integer;
+
+            }
+
+        });
+
+
+    }
+
+    // getter for current points
+    public int getCurrentPoints(){
+        return currentPoints;
+    }
+
+
 
     // settings button information
     public void settingB(View view){

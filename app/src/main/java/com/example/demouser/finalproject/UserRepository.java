@@ -2,18 +2,24 @@ package com.example.demouser.finalproject;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
+import android.widget.TextView;
 
 
 public class UserRepository {
     private UserDao userDao;
     private int count;
+    private Context context;
 
-    public UserRepository(Application application){
+    public UserRepository(Application application, Context context){
         TaskDatabase db = TaskDatabase.getDatabase(application);
         userDao = db.userDao();
+        this.context = context;
 //        count = userDao.getCount();
 
     }
@@ -22,10 +28,10 @@ public class UserRepository {
         new insertAsyncUser(userDao).execute(user);
     }
 
-    int getPoints(String userName){
-        int points = userDao.getPoints(userName);
+    LiveData<Integer> getPoints(String userName){
+        LiveData<Integer> points = userDao.getPoints(userName);
         return points;
-//        return new
+        //        return new
     }
 
     void setPoints(User user){
@@ -51,7 +57,7 @@ public class UserRepository {
         }
     }*/
 
-    private static class insertAsyncUser extends AsyncTask<User, Void, Void> {
+    private class insertAsyncUser extends AsyncTask<User, Void, Void> {
 
         private UserDao mAsyncUserDao;
 
@@ -64,7 +70,17 @@ public class UserRepository {
             mAsyncUserDao.insert(params[0]);
             return null;
         }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            MainActivity mainActivity = (MainActivity) UserRepository.this.context;
+            mainActivity.displayPoints();
+
+        }
     }
+
+
     private static class setPointsAsyncUser extends AsyncTask<User, Void, Void> {
 
         private UserDao mAsyncUserDao;

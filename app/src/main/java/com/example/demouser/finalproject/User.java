@@ -2,6 +2,7 @@ package com.example.demouser.finalproject;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -20,6 +21,13 @@ public class User {
         this.points = 0;
     }
 
+    @Ignore
+    public User(String userName, int points){
+        this.userName = userName;
+        this.points = points;
+
+    }
+
     public String getUserName() {
         return userName;
     }
@@ -27,6 +35,7 @@ public class User {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
     public String getCharName(){
         return charName;
     }
