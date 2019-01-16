@@ -8,8 +8,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+/**
+ * AddTask
+ * This activity allows the user to add a new task to the database
+ */
+
 public class AddTask extends AppCompatActivity {
-    //Elizabeth Freeman sample comment
 
     private String TASKNAME_KEY = "Task Name";
     private String DATE_KEY = "Due Date";
@@ -17,16 +21,28 @@ public class AddTask extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //set up the page to add a task to our list of tasks
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
     }
 
+    /**
+     * Cancel Button
+     * This button returns to MainActivity, changes nothing
+     * @param view the cancel buttonn
+     */
     public void cancelB(View view){
         Intent cIntent = new Intent();
         setResult(RESULT_CANCELED, cIntent);
         finish();
     }
 
+    /**
+     * create Button
+     * gets task name and due date and returns to Main Activity
+     * in order to create a new task
+     * @param view the create task button
+     */
     public void createTask(View view){
         Intent createIntent = new Intent();
         EditText taskPrompt = (EditText) findViewById(R.id.taskPrompt);
