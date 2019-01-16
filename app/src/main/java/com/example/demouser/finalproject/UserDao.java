@@ -16,4 +16,6 @@ public interface UserDao {
     @Query("SELECT points FROM user_table WHERE userName=:userName")
     int getPoints(String userName);
 
+    @Query("UPDATE user_table SET points=:points WHERE userName=:userName")
+    void setPoints(int points, String userName);
 }

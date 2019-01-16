@@ -108,10 +108,11 @@ public class TaskHolder extends RecyclerView.ViewHolder{
     public void doneButton(View view){
         Activity activity = (Activity) view.getContext();
         TaskRepository taskRepository = new TaskRepository(activity.getApplication());
-        Log.i(LOG,String.valueOf(taskRepository.getTime(task)));
+        if (task.getInProgress()) {
+            startStopButton(((View)view.getParent()).findViewById(R.id.start_stop));
+        }
+        Log.i(LOG, String.valueOf(taskRepository.getTime(task)));
         taskRepository.delete(task);
-
-
 
     }
 
