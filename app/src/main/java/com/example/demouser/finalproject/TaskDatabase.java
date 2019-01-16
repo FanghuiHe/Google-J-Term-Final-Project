@@ -6,9 +6,10 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 // ask about version
-@Database(entities={Task.class}, version = 2, exportSchema = false)
+@Database(entities={Task.class, User.class}, version = 1, exportSchema = false)
 public abstract class TaskDatabase extends RoomDatabase {
     public abstract TaskDao taskDao();
+    public abstract UserDao userDao();
     private static volatile TaskDatabase INSTANCE;
 
     static TaskDatabase getDatabase(final Context context) {
