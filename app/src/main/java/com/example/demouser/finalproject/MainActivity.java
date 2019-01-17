@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.sql.Timestamp;
@@ -85,6 +86,19 @@ public class MainActivity extends AppCompatActivity {
                 TextView pointView = (TextView) findViewById(R.id.points);
                 pointView.setText(String.valueOf(integer));
                 currentPoints = integer;
+                ImageView charImage = (ImageView) findViewById(R.id.imageView);
+                if(currentPoints<=40){
+                    charImage.setImageResource(R.drawable.baby_simba);
+                }
+                if(currentPoints > 40){
+                    charImage.setImageResource(R.drawable.kid_simba);
+                }
+                if(currentPoints > 80){
+                    charImage.setImageResource(R.drawable.teen_simba);
+                }
+                if(currentPoints > 120){
+                    charImage.setImageResource(R.drawable.grown_simba);
+                }
 
             }
 
