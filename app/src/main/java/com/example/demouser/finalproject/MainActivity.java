@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         taskList.setAdapter(adapter);
 
         displayPoints();
-
+        displayCharName();
 
 
     }
@@ -77,6 +77,22 @@ public class MainActivity extends AppCompatActivity {
                 pointView.setText(String.valueOf(integer));
                 currentPoints = integer;
 
+            }
+
+        });
+
+
+    }
+    /*
+        *observes the LiveData for charName adn updated view
+     */
+    public void displayCharName(){
+        UserRepository userRepository = new UserRepository(getApplication(), this);
+        userRepository.getCharName(user.getUserName()).observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String charName) {
+                TextView pointView = (TextView) findViewById(R.id.charNameDisplay);
+                pointView.setText(String.valueOf(charName));
             }
 
         });
@@ -128,8 +144,11 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK){
                 // get results character name from settings page
                 String charName = data.getStringExtra("charName");
+                user.setCharName(charName);
+                //store charName in database in table user_table
+                UserRepository userRepository = new UserRepository(getApplication(), this);
+                userRepository.setCharName(user);
                 Log.d(TAG, charName);
-
             }
         }
 

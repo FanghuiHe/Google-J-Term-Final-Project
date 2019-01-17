@@ -23,8 +23,6 @@ public interface TaskDao {
     @Query("UPDATE task_table SET time_worked = :time WHERE id=:id")
     void setTime(double time, int id);
 
-//    @Query("DELETE * FROM task_table WHERE id=:id ")
-//    LiveData<List<Task>> deleteTask(int id);
 
     @Query("SELECT * FROM task_table ORDER BY due_date ASC")
     LiveData<List<Task>> getTasksByDateAsc();

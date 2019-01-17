@@ -21,6 +21,12 @@ public interface UserDao {
     @Query("UPDATE user_table SET points=:points WHERE userName=:userName")
     void setPoints(int points, String userName);
 
+    @Query("UPDATE user_table SET char_name=:charName WHERE userName=:userName")
+    void setCharName(String charName, String userName);
+
+    @Query("SELECT char_name FROM user_table WHERE userName=:userName")
+    LiveData<String> getCharName(String userName);
+
     @Query("SELECT COUNT(*) FROM user_table")
     int getCount();
 }

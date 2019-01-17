@@ -34,6 +34,13 @@ public class UserRepository {
         //        return new
     }
 
+    LiveData<String> getCharName(String userName){
+        LiveData<String> charName = userDao.getCharName(userName);
+        return charName;
+    }
+
+    void setCharName(User user){new setCharNameAsyncUser(userDao).execute(user);}
+
     void setPoints(User user){
         new setPointsAsyncUser(userDao).execute(user);
     }
@@ -92,6 +99,20 @@ public class UserRepository {
         @Override
         protected Void doInBackground(final User... params) {
             mAsyncUserDao.setPoints(params[0].getPoints(), params[0].getUserName());
+            return null;
+        }
+    }
+    private static class setCharNameAsyncUser extends AsyncTask<User, Void, Void> {
+
+        private UserDao mAsyncUserDao;
+
+        setCharNameAsyncUser(UserDao dao) {
+            mAsyncUserDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final User... params) {
+            mAsyncUserDao.setCharName(params[0].getCharName(), params[0].getUserName());
             return null;
         }
     }
