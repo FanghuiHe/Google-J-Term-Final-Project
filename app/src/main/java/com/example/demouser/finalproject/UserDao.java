@@ -15,6 +15,9 @@ public interface UserDao {
     @Delete
     void delete(User user);
 
+    @Query("SELECT COUNT(*) FROM user_table WHERE userName=:userName")
+    LiveData<Integer> getUserCount(String userName);
+
     @Query("SELECT points FROM user_table WHERE userName=:userName")
     LiveData<Integer> getPoints(String userName);
 

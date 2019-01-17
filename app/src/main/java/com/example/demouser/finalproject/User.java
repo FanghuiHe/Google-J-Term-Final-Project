@@ -15,9 +15,9 @@ public class User {
     @ColumnInfo(name="points")
     private int points;
 
-    public User(String charName){
-        this.userName = "user123";
-        this.charName = charName;
+    public User(String userName){
+        this.userName = userName;
+        this.charName = "Simba";
         this.points = 0;
     }
 

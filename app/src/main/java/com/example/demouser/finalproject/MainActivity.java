@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private TaskAdapter adapter = new TaskAdapter();
     private User user;
     private int currentPoints;
+    private boolean finishedLogin = false;
 
     // log tags:
     private String TAG = "tag";
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     // request codes:
     private int REQUEST_TASK = 2;
     private int REQUEST_CHARNAME = 3;
+    private int REQUEST_USER = 4;
 
     /**
      * On create method contains all code that will execute when the app is run
@@ -38,11 +40,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Open login Page
+        Intent intent = new Intent(this, LoginPage.class);
+        Log.d(TAG, "request user");
+        //startActivityForResult(intent, REQUEST_USER);
+        Log.d(TAG, "result gotten");
+
         setContentView(R.layout.activity_main);
         UserRepository userRepository = new UserRepository(getApplication(), this);
 
+
         // new user
-        user = new User("Henry");
+        user = new User("user123");
         Log.d(TAG, user.getCharName());
        // userRepository.insert(user);
 
@@ -61,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         taskList.setLayoutManager(new LinearLayoutManager((this)));
 
         taskList.setAdapter(adapter);
-
         displayPoints();
         displayCharName();
 
@@ -149,6 +158,13 @@ public class MainActivity extends AppCompatActivity {
                 UserRepository userRepository = new UserRepository(getApplication(), this);
                 userRepository.setCharName(user);
                 Log.d(TAG, charName);
+            }
+        }else if (requestCode ==  REQUEST_USER){
+            if(resultCode== RESULT_OK){
+                Log.d(TAG, "in on result");
+                String userString = data.getStringExtra("user");
+                user = new User(userString);
+                finishedLogin = true;
             }
         }
 

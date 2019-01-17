@@ -39,6 +39,11 @@ public class UserRepository {
         return charName;
     }
 
+    LiveData<Integer> getUserCount(String userName){
+        LiveData<Integer> userCount = userDao.getUserCount(userName);
+        return userCount;
+    }
+
     void setCharName(User user){new setCharNameAsyncUser(userDao).execute(user);}
 
     void setPoints(User user){
@@ -81,8 +86,9 @@ public class UserRepository {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            MainActivity mainActivity = (MainActivity) UserRepository.this.context;
-            mainActivity.displayPoints();
+            LoginPage loginPage = (LoginPage) UserRepository.this.context;
+            //mainActivity.displayPoints();
+            loginPage.finish();
 
         }
     }
