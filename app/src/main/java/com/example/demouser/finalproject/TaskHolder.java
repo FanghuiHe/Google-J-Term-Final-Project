@@ -52,8 +52,6 @@ public class TaskHolder extends RecyclerView.ViewHolder{
         DoneButton.setOnClickListener(doneListener);
         StartStopButton.setOnClickListener(startStopListener);
 
-
-
     }
 
     public Task getTask(){
@@ -95,7 +93,7 @@ public class TaskHolder extends RecyclerView.ViewHolder{
             tEnd = System.currentTimeMillis();
             tElapsed += (tEnd - tStart);
             Activity activity = (Activity) view.getContext();
-            TaskRepository taskRepository = new TaskRepository(activity.getApplication());
+            TaskRepository taskRepository = new TaskRepository(activity.getApplication(), task.getUserName());
             task.setTimeWorked(tElapsed);
             taskRepository.setTime(task);
             Log.i(LOG,String.valueOf(tElapsed));
@@ -113,14 +111,28 @@ public class TaskHolder extends RecyclerView.ViewHolder{
 
     public void doneButton(View view){
         Activity activity = (Activity) view.getContext();
-        TaskRepository taskRepository = new TaskRepository(activity.getApplication());
+        TaskRepository taskRepository = new TaskRepository(activity.getApplication(), task.getUserName());
         UserRepository userRepository = new UserRepository(activity.getApplication(), activity);
         if (task.getInProgress()) {
             startStopButton(((View)view.getParent()).findViewById(R.id.start_stop));
         }
+
+        Log.d(LOG, "Before: " + String.valueOf(currentPoints));
+
         currentPoints = ((MainActivity) activity).getCurrentPoints();
-        User user = new User(task.getUserName(), currentPoints + 10);
+        //currentPoints+=10;
+        User user = new User(task.getUserName(), currentPoints+10);
+
+
+        Log.d(LOG, task.getUserName());
+        Log.d(LOG, "User.userName: " + user.getUserName());
+
+
         userRepository.setPoints(user);
+
+        Log.d(LOG, "User points: " + String.valueOf(user.getPoints()));
+        Log.d(LOG, task.getUserName());
+        Log.d(LOG, "After: " + String.valueOf(currentPoints));
 
         Log.i(LOG, String.valueOf(taskRepository.getTime(task)));
         taskRepository.delete(task);

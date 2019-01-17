@@ -1,5 +1,6 @@
 package com.example.demouser.finalproject;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -15,6 +16,8 @@ public class LoginPage extends AppCompatActivity {
     private String USER_KEY= "user";
     private boolean userExists = false;
     private String TAG = "tag";
+    private String userNameString;
+    private LiveData<Integer> userCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,33 +26,54 @@ public class LoginPage extends AppCompatActivity {
         setContentView(R.layout.activity_login_page);
     }
 
-    public void saveButton(View view){
-        Log.d(TAG, "save button");
-        Intent intent = new Intent();
-        EditText userNameText = (EditText) findViewById(R.id.loginInput);
-        String userNameString = userNameText.getText().toString();
-        User user = new User(userNameString);
-        intent.putExtra(USER_KEY, userNameString);
-        setResult(RESULT_OK, intent);
 
-        UserRepository userRepository = new UserRepository(getApplication(), this);
-        userRepository.getUserCount(user.getUserName()).observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(@Nullable Integer integer) {
-                if(integer != 0) {
-                    userExists = true;
-                }
+
+    Observer<Integer> observer = new Observer<Integer>() {
+        @Override
+        public void onChanged(@Nullable Integer integer) {
+            final Intent intent = new Intent(LoginPage.this, MainActivity.class);
+            EditText userNameText = (EditText) findViewById(R.id.loginInput);
+            intent.putExtra(USER_KEY, userNameString);
+            userNameString = userNameText.getText().toString();
+            final User user = new User(userNameString);
+            final UserRepository userRepository = new UserRepository(getApplication(), LoginPage.this);
+
+            if (integer != 0) {
+                userExists = true;
             }
 
-        });
+            if (userExists) {
+                Log.d(TAG, "user exists");
+                Log.d(TAG, "starting activity from login to main, user already exists");
+                userCount.removeObserver(observer);
+                startActivity(intent);
+            } else {
+                Log.d(TAG, "no user");
+                // remove the observer
+                userCount.removeObserver(observer);
+                userRepository.insert(user);
 
-        if(userExists){
-            Log.d(TAG, "user exists");
-            finish();
-        }else{
-            Log.d(TAG, "no user");
-            userRepository.insert(user);
+                //startActivity(intent);
+            }
         }
 
+    };
+
+    public void saveButton(View view){
+        Log.d(TAG, "save button");
+        EditText userNameText = (EditText) findViewById(R.id.loginInput);
+
+        userNameString = userNameText.getText().toString();
+        UserRepository userRepository = new UserRepository(getApplication(), LoginPage.this);
+        User user = new User(userNameString);
+
+        userCount = userRepository.getUserCount(user.getUserName());
+        userCount.observe(LoginPage.this, observer);
+
+
+    }
+
+    public String getUserName(){
+        return userNameString;
     }
 }

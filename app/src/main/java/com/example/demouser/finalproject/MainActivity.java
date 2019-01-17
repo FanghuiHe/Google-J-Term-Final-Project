@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     private TaskAdapter adapter = new TaskAdapter();
     private User user;
     private int currentPoints;
-    private boolean finishedLogin = false;
 
     // log tags:
     private String TAG = "tag";
@@ -42,23 +43,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Open login Page
-        Intent intent = new Intent(this, LoginPage.class);
-        Log.d(TAG, "request user");
-        //startActivityForResult(intent, REQUEST_USER);
-        Log.d(TAG, "result gotten");
 
         setContentView(R.layout.activity_main);
         UserRepository userRepository = new UserRepository(getApplication(), this);
 
+        Log.d(TAG, "in on result");
+        String userString = getIntent().getStringExtra("user");
+
+        // Display the user name
+        TextView userNameDisplay = (TextView) findViewById(R.id.userNameDisplay);
+        userNameDisplay.setText(userString);
 
         // new user
-        user = new User("user123");
-        Log.d(TAG, user.getCharName());
-       // userRepository.insert(user);
+        user = new User(userString);
 
-
-        TaskRepository taskRepository = new TaskRepository(getApplication());
+        TaskRepository taskRepository = new TaskRepository(getApplication(), userString);
         taskRepository.getTasks().observe(
                 this,
                 new Observer<List<Task>>() {
@@ -78,25 +77,34 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public String getUserName(){
+        return user.getUserName();
+    }
+
     public void displayPoints(){
         UserRepository userRepository = new UserRepository(getApplication(), this);
         userRepository.getPoints(user.getUserName()).observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer integer) {
+                if(integer==null){
+                    return;
+                }
                 TextView pointView = (TextView) findViewById(R.id.points);
                 pointView.setText(String.valueOf(integer));
+
                 currentPoints = integer;
                 ImageView charImage = (ImageView) findViewById(R.id.imageView);
-                if(currentPoints<=40){
+
+                if(currentPoints <= 10){
                     charImage.setImageResource(R.drawable.baby_simba);
                 }
-                if(currentPoints > 40){
+                if(currentPoints > 20){
                     charImage.setImageResource(R.drawable.kid_simba);
                 }
-                if(currentPoints > 80){
+                if(currentPoints > 30){
                     charImage.setImageResource(R.drawable.teen_simba);
                 }
-                if(currentPoints > 120){
+                if(currentPoints > 40){
                     charImage.setImageResource(R.drawable.grown_simba);
                 }
 
@@ -133,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
     // settings button information
     public void settingB(View view){
         Intent intent = new Intent(this, Settings.class);
+        Log.d(TAG, "start activity for result: from main to settings");
         startActivityForResult(intent, REQUEST_CHARNAME);
 
     }
@@ -140,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
     // plus button information
     public void plusB(View view){
         Intent intent = new Intent(this, AddTask.class);
+        Log.d(TAG, "start activity for result: from main to plus button");
         startActivityForResult(intent, REQUEST_TASK);
 
     }
@@ -148,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(requestCode == REQUEST_TASK){
             if(resultCode == RESULT_OK){
+
                 // task name
                 String taskName = data.getStringExtra("Task Name");
                 // due date
@@ -156,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, taskName);
                 Log.d(TAG, dueDate);
                 // add the task to the task repository
-                TaskRepository taskRepository = new TaskRepository(getApplication());
+                TaskRepository taskRepository = new TaskRepository(getApplication(), user.getUserName());
                 // create the new task with the given information
                 Task task = new Task(taskName,dueDate,user.getUserName());
                 taskRepository.insert(task);
@@ -173,14 +184,8 @@ public class MainActivity extends AppCompatActivity {
                 userRepository.setCharName(user);
                 Log.d(TAG, charName);
             }
-        }else if (requestCode ==  REQUEST_USER){
-            if(resultCode== RESULT_OK){
-                Log.d(TAG, "in on result");
-                String userString = data.getStringExtra("user");
-                user = new User(userString);
-                finishedLogin = true;
-            }
         }
+
 
     }
 

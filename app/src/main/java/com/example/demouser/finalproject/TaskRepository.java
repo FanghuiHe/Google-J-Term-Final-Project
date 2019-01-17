@@ -1,5 +1,6 @@
 package com.example.demouser.finalproject;
 
+import android.app.Activity;
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
@@ -10,12 +11,15 @@ public class TaskRepository {
     private TaskDao taskDao;
     private LiveData<List<Task>> tasks;
     private double timeWorkedOn;
+    private String userName;
 
+//((MainActivity) (application.getApplicationContext())
 
-    public TaskRepository(Application application) {
+    public TaskRepository(Application application, String userName) {
         TaskDatabase db = TaskDatabase.getDatabase(application);
         taskDao = db.taskDao();
-        tasks = taskDao.getTasksByDateAsc();
+        this.userName = userName;
+        tasks = taskDao.getTasksByDateAsc(userName);
 
     }
 
@@ -40,15 +44,6 @@ public class TaskRepository {
         new deleteAsyncTask(taskDao).execute(task);
     }
 
- /*   public int getTimeWorked(Task task){
-        timeWorkedOn = taskDao.getTimeWorked((task.getId()));
-
-
-
-      //  return new getTimeWorkedAsyncTask(taskDao).execute(task);
-
-    }
-    */
 
     private static class insertAsyncTask extends AsyncTask<Task, Void, Void> {
 
@@ -97,21 +92,6 @@ public class TaskRepository {
         }
     }
 
-   /* private static class getTimeWorkedAsyncTask extends AsyncTask<Task, Void, Void> {
 
-        private TaskDao mAsyncTaskDao;
-
-        getTimeWorkedAsyncTask(TaskDao dao) {
-            mAsyncTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(final Task... params) {
-            mAsyncTaskDao.getTimeWorked(params[0].getId());
-            return null;
-        }
-
-
-    }*/
 
 }

@@ -6,8 +6,10 @@ import android.arch.lifecycle.Observer;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.TextView;
 
 
@@ -15,6 +17,10 @@ public class UserRepository {
     private UserDao userDao;
     private int count;
     private Context context;
+    private String USER_KEY = "user";
+    private String TAG = "tag";
+
+
 
     public UserRepository(Application application, Context context){
         TaskDatabase db = TaskDatabase.getDatabase(application);
@@ -25,13 +31,12 @@ public class UserRepository {
     }
 
     void insert(User user){
-        new insertAsyncUser(userDao).execute(user);
+        new insertAsyncUser(userDao, user.getUserName()).execute(user);
     }
 
     LiveData<Integer> getPoints(String userName){
         LiveData<Integer> points = userDao.getPoints(userName);
         return points;
-        //        return new
     }
 
     LiveData<String> getCharName(String userName){
@@ -50,31 +55,14 @@ public class UserRepository {
         new setPointsAsyncUser(userDao).execute(user);
     }
 
-   /* int getCount(){
-        return new getCountAsyncUser(userDao).execute();
-    }
-
-    private static class getCountAsyncUser extends AsyncTask<User, Void, Void> {
-
-        private UserDao mAsyncUserDao;
-
-        getCountAsyncUser(UserDao dao) {
-            mAsyncUserDao = dao;
-        }
-
-        @Override
-        protected int doInBackground(final User... params) {
-            return mAsyncUserDao.getCount();
-            //return null;
-        }
-    }*/
-
     private class insertAsyncUser extends AsyncTask<User, Void, Void> {
 
         private UserDao mAsyncUserDao;
+        private String userName;
 
-        insertAsyncUser(UserDao dao) {
+        insertAsyncUser(UserDao dao, String userName) {
             mAsyncUserDao = dao;
+            this.userName = userName;
         }
 
         @Override
@@ -86,9 +74,13 @@ public class UserRepository {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+
             LoginPage loginPage = (LoginPage) UserRepository.this.context;
-            //mainActivity.displayPoints();
-            loginPage.finish();
+
+            Intent intent = new Intent(loginPage, MainActivity.class);
+            intent.putExtra(USER_KEY, userName);
+            Log.d(TAG, "start activity from login to main after adding user");
+            loginPage.startActivity(intent);
 
         }
     }
@@ -108,6 +100,8 @@ public class UserRepository {
             return null;
         }
     }
+
+
     private static class setCharNameAsyncUser extends AsyncTask<User, Void, Void> {
 
         private UserDao mAsyncUserDao;

@@ -34,6 +34,7 @@ public class AddTask extends AppCompatActivity {
     public void cancelB(View view){
         Intent cIntent = new Intent();
         setResult(RESULT_CANCELED, cIntent);
+        Log.d(TAG, "finish add task with cancel");
         finish();
     }
 
@@ -54,6 +55,7 @@ public class AddTask extends AppCompatActivity {
         Log.d(TAG, dueDate.getText().toString());
 
         setResult(RESULT_OK, createIntent);
+        Log.d(TAG, "finish add task with add");
         finish();
 
     }

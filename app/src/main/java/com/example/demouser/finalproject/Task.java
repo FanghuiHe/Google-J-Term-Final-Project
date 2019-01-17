@@ -31,8 +31,6 @@ public class Task {
     @ColumnInfo(name = "user_name")
     private String userName;
 
-
-
     // Constructor
     public Task(String taskName, String dueDate, String userName){
         this.taskName = taskName;
@@ -47,6 +45,7 @@ public class Task {
     public double getTimeWorked() {
         return timeWorked;
     }
+
     public void setTimeWorked(double timeWorked){
         this.timeWorked=timeWorked;
     }
